@@ -1,0 +1,263 @@
+/*!
+ * NZ Nature — front-end and editor styles.
+ * Design tokens live in theme.json; this file adds layout, motifs and
+ * block-style treatments that theme.json cannot express.
+ */
+
+/* -------------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------- */
+:root {
+	--nz-radius: 14px;
+	--nz-shadow-soft: 0 12px 30px -18px rgba(11, 42, 32, 0.55);
+	--nz-shadow-card: 0 24px 60px -30px rgba(11, 42, 32, 0.45);
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	background-color: var(--wp--preset--color--base-2);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+	background: var(--wp--preset--color--kowhai);
+	color: var(--wp--preset--color--pounamu-deep);
+}
+
+a:focus-visible,
+button:focus-visible,
+.wp-element-button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+	outline: 3px solid var(--wp--preset--color--ocean);
+	outline-offset: 2px;
+}
+
+/* -------------------------------------------------------------------------
+ * Header
+ * ------------------------------------------------------------------- */
+.wp-block-site-logo img {
+	border-radius: 999px;
+	box-shadow: var(--nz-shadow-soft);
+}
+
+.nz-nature-nav .wp-block-navigation-item__content {
+	position: relative;
+}
+
+.nz-nature-nav .wp-block-navigation-item__content::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 100%;
+	bottom: -4px;
+	height: 2px;
+	background: var(--wp--preset--color--kowhai);
+	transition: right 0.25s ease;
+}
+
+.nz-nature-nav .wp-block-navigation-item__content:hover::after,
+.nz-nature-nav .current-menu-item .wp-block-navigation-item__content::after {
+	right: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Hero + motif panels (generated SVG art)
+ * ------------------------------------------------------------------- */
+.nz-hero,
+.nz-motif {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.nz-hero > *,
+.nz-motif > * {
+	position: relative;
+	z-index: 2;
+}
+
+.nz-hero::after,
+.nz-motif::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	z-index: 1;
+	pointer-events: none;
+	background-repeat: no-repeat;
+	background-position: bottom center;
+	background-size: 100% auto;
+}
+
+.nz-hero--mountains::after {
+	height: min(38%, 260px);
+	background-image: url("../images/mountains.svg");
+}
+
+.nz-motif--mountains::after {
+	height: 55%;
+	opacity: 0.45;
+	background-image: url("../images/mountains.svg");
+}
+
+.nz-motif--fern::after {
+	inset: 0;
+	height: auto;
+	opacity: 0.14;
+	background-position: center right;
+	background-size: auto 120%;
+	background-image: url("../images/fern.svg");
+	transform: rotate(8deg);
+}
+
+.nz-motif--koru::after {
+	inset: 0;
+	height: auto;
+	opacity: 0.18;
+	background-position: center;
+	background-size: min(60%, 260px) auto;
+	background-image: url("../images/koru.svg");
+}
+
+.nz-motif--southern-cross::after {
+	inset: 0;
+	height: auto;
+	opacity: 0.25;
+	background-position: top right;
+	background-size: min(40%, 220px) auto;
+	background-image: url("../images/southern-cross.svg");
+}
+
+/* -------------------------------------------------------------------------
+ * Block styles
+ * ------------------------------------------------------------------- */
+.is-style-outline-pounamu .wp-block-button__link {
+	background: transparent;
+	color: var(--wp--preset--color--pounamu);
+	border: 2px solid var(--wp--preset--color--pounamu);
+}
+
+.is-style-outline-pounamu .wp-block-button__link:hover,
+.is-style-outline-pounamu .wp-block-button__link:focus {
+	background: var(--wp--preset--color--pounamu);
+	color: var(--wp--preset--color--base);
+}
+
+.is-style-driftwood-card {
+	box-shadow: var(--nz-shadow-soft);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.is-style-driftwood-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--nz-shadow-card);
+}
+
+.wp-block-separator.is-style-wave {
+	border: 0;
+	height: 14px;
+	background: url("../images/wave.svg") repeat-x center / auto 100%;
+	opacity: 1;
+}
+
+/* -------------------------------------------------------------------------
+ * Content
+ * ------------------------------------------------------------------- */
+.wp-block-post-featured-image img,
+.wp-block-image img {
+	box-shadow: var(--nz-shadow-soft);
+}
+
+.wp-block-post-terms a {
+	display: inline-block;
+	padding: 0.15em 0.7em;
+	border-radius: 999px;
+	background: var(--wp--preset--color--limestone);
+	color: var(--wp--preset--color--pounamu);
+	font-size: 0.75em;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.wp-block-post-terms a:hover {
+	background: var(--wp--preset--color--kowhai);
+	color: var(--wp--preset--color--pounamu-deep);
+}
+
+.wp-block-post-excerpt__more-link {
+	display: inline-block;
+	margin-top: 0.75rem;
+	font-weight: 600;
+	text-decoration: none;
+	border-bottom: 2px solid var(--wp--preset--color--kowhai);
+}
+
+.nz-comments .wp-block-comment-template > li {
+	list-style: none;
+}
+
+.nz-comments .wp-block-comments-title,
+.nz-comments .wp-block-comment-reply-link a {
+	color: var(--wp--preset--color--fern);
+}
+
+.nz-inline-title {
+	display: inline;
+}
+
+/* -------------------------------------------------------------------------
+ * Forms
+ * ------------------------------------------------------------------- */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+textarea {
+	background: var(--wp--preset--color--base);
+	border: 1px solid var(--wp--preset--color--limestone);
+	border-radius: 10px;
+	padding: 0.65em 0.9em;
+	font: inherit;
+	color: var(--wp--preset--color--contrast);
+}
+
+.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
+	border: 1px solid var(--wp--preset--color--limestone);
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+/* -------------------------------------------------------------------------
+ * Editor parity
+ * ------------------------------------------------------------------- */
+.editor-styles-wrapper {
+	background-color: var(--wp--preset--color--base-2);
+}
+
+/* -------------------------------------------------------------------------
+ * Motion / print
+ * ------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation-duration: 0.001ms !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+@media print {
+	.nz-hero::after,
+	.nz-motif::after,
+	.wp-block-navigation,
+	.wp-block-comments {
+		display: none !important;
+	}
+}

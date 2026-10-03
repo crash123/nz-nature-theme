@@ -1,0 +1,66 @@
+# Unraid Docker Compose Manager deployment.
+#
+# 1. In Unraid, create a Compose Manager project (e.g. "nz-nature-theme").
+# 2. Paste this file's contents into the project's docker-compose.yml
+#    (or use "Add New Stack" and point at this file).
+# 3. Put a .env next to it with real values (see .env.example at repo root).
+# 4. Clone this repo to ${APPDATA}/repo (or copy the theme folder) so the
+#    theme bind mount below resolves:
+#       git clone git@github.com:crash123/nz-nature-theme.git ${APPDATA}/repo
+#
+# Volumes live on the array under /mnt/user/appdata/nz-nature-theme/.
+# Keep the Compose Manager project directory on the flash drive small; only
+# this YAML lives there.
+
+services:
+  db:
+    image: mariadb:11
+    container_name: nz-nature-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ${APPDATA:-/mnt/user/appdata/nz-nature-theme}/db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - nz-nature
+
+  wordpress:
+    image: wordpress:7.1.2-php8.3-apache
+    container_name: nz-nature-wp
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: wp_
+      # If TLS terminates at a reverse proxy (SWAG/NPM), also add these lines
+      # inside WORDPRESS_CONFIG_EXTRA below:
+      #   define( 'FORCE_SSL_ADMIN', true );
+      #   $_SERVER['HTTPS'] = 'on';
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_HOME', '${WP_HOME}' );
+        define( 'WP_SITEURL', '${WP_SITEURL}' );
+        define( 'DISALLOW_FILE_EDIT', true );
+    volumes:
+      - ${APPDATA:-/mnt/user/appdata/nz-nature-theme}/wordpress:/var/www/html
+      - ${APPDATA:-/mnt/user/appdata/nz-nature-theme}/repo/theme/nz-nature:/var/www/html/wp-content/themes/nz-nature
+    networks:
+      - nz-nature
+
+networks:
+  nz-nature:
+    name: nz-nature

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="NZ Nature logo">
+	<defs>
+		<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#48cae4"/>
+			<stop offset="1" stop-color="#e9edc9"/>
+		</linearGradient>
+	</defs>
+	<circle cx="64" cy="64" r="62" fill="url(#sky)" stroke="#1b4332" stroke-width="4"/>
+	<path d="M8 92 L40 52 L58 74 L76 44 L120 92 Z" fill="#2d6a4f"/>
+	<path d="M8 104 L34 80 L58 100 L86 70 L120 104 L120 118 L8 118 Z" fill="#1b4332"/>
+	<path d="M40 52 L32 61 L37 63 L42 58 L47 63 L52 60 Z" fill="#fefae0"/>
+	<path d="M76 44 L67 55 L73 57 L78 51 L83 57 L89 54 Z" fill="#fefae0"/>
+	<circle cx="98" cy="34" r="7" fill="#e9c46a"/>
+</svg>

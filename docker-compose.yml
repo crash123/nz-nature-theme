@@ -1,0 +1,69 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: nz-nature-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - nz-nature
+
+  wordpress:
+    image: wordpress:7.1.2-php8.3-apache
+    container_name: nz-nature-wp
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_HOME', '${WP_HOME}' );
+        define( 'WP_SITEURL', '${WP_SITEURL}' );
+        define( 'WP_ENVIRONMENT_TYPE', 'local' );
+        define( 'DISALLOW_FILE_EDIT', true );
+    volumes:
+      - ./data/wordpress:/var/www/html
+      - ./theme/nz-nature:/var/www/html/wp-content/themes/nz-nature
+    networks:
+      - nz-nature
+
+  wpcli:
+    image: wordpress:cli-2.11-php8.3
+    container_name: nz-nature-wpcli
+    profiles: ["tools"]
+    depends_on:
+      db:
+        condition: service_healthy
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: wp_
+    volumes:
+      - ./data/wordpress:/var/www/html
+      - ./theme/nz-nature:/var/www/html/wp-content/themes/nz-nature
+    networks:
+      - nz-nature
+
+networks:
+  nz-nature:
+    name: nz-nature

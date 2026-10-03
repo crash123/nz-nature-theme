@@ -1,0 +1,21 @@
+/*
+Theme Name: NZ Nature
+Theme URI: https://github.com/crash123/nz-nature-theme
+Author: Robert Weston
+Author URI: https://github.com/crash123
+Description: A personal blog theme inspired by Aotearoa New Zealand's landscapes — pounamu forests, alpine peaks, kōwhai blossoms and the southern coast. A full site editing (block) theme.
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: nz-nature
+Tags: blog, block-patterns, full-site-editing, one-column, two-columns, wide-blocks, custom-colors, custom-logo, editor-style, featured-images, threaded-comments, translation-ready
+*/
+
+/*
+ * Front-end base styles live in assets/css/theme.css and are enqueued from
+ * functions.php. Design tokens (colour, type, spacing) are defined in
+ * theme.json so they are available in the Site Editor.
+ */

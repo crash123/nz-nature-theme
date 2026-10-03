@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Southern Cross constellation">
+	<g fill="#fefae0">
+		<path d="M100 20 L106 52 L138 58 L106 64 L100 96 L94 64 L62 58 L94 52 Z"/>
+		<path d="M40 96 L45 120 L69 125 L45 130 L40 154 L35 130 L11 125 L35 120 Z"/>
+		<path d="M160 96 L165 120 L189 125 L165 130 L160 154 L155 130 L131 125 L155 120 Z"/>
+		<path d="M100 132 L105 154 L127 159 L105 164 L100 186 L95 164 L73 159 L95 154 Z"/>
+		<path d="M112 104 L115 114 L125 116 L115 118 L112 128 L109 118 L99 116 L109 114 Z" opacity="0.7"/>
+	</g>
+</svg>

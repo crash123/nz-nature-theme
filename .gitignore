@@ -1,0 +1,19 @@
+# Environment / secrets
+.env
+*.env.local
+
+# Local WordPress + database data (bind mounts)
+data/
+unraid/data/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log

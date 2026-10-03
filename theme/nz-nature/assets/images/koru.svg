@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Koru spiral">
+	<g fill="none" stroke="#e9c46a" stroke-width="10" stroke-linecap="round">
+		<path d="M100 178 C54 178 26 150 26 112 C26 76 52 52 84 52 C113 52 134 72 134 97 C134 119 118 134 99 134 C82 134 70 122 70 108 C70 95 79 86 91 86 C101 86 108 92 108 100"/>
+	</g>
+	<circle cx="108" cy="100" r="6" fill="#e9c46a"/>
+</svg>
