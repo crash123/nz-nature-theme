@@ -106,10 +106,41 @@ if ! wp post list --post_type=post --name="first-light-on-the-tongariro-alpine-c
 		--post_content='Ngā mihi for stopping by. You can reach me at hello@example.com.'
 fi
 
-if ! wp menu list --format=ids 2>/dev/null | grep -q '[0-9]'; then
-	MENU_ID="$(wp menu create "Primary" --porcelain)"
-	wp menu location assign "$MENU_ID" primary >/dev/null 2>&1 || true
+# Set up a static front page ("Home") and a "Journal" posts page so the hero's
+# "Read the journal" button has a real destination. The front-page template
+# renders Home; the Journal page renders the post index.
+if [ "$(wp option get show_on_front 2>/dev/null | tail -1)" != "page" ]; then
+	echo "Setting up Home and Journal pages..."
+	HOME_ID="$(wp post create --post_type=page --post_status=publish --post_title="Home" --porcelain 2>/dev/null | tail -1)"
+	JOURNAL_ID="$(wp post create --post_type=page --post_status=publish --post_title="Journal" --porcelain 2>/dev/null | tail -1)"
+	wp option update show_on_front page >/dev/null
+	wp option update page_on_front "$HOME_ID" >/dev/null
+	wp option update page_for_posts "$JOURNAL_ID" >/dev/null
+
+	# WordPress can materialise a "Front Page" wp_template override in the
+	# database when a static front page is set. Remove it so the Git-tracked
+	# theme file stays authoritative.
+	FRONT_TID="$(wp post list --post_type=wp_template --name="front-page" --field=ID 2>/dev/null | tail -1)"
+	if [ -n "$FRONT_TID" ]; then
+		wp post delete "$FRONT_TID" --force >/dev/null 2>&1 || true
+	fi
 fi
+
+# Remove the default "Sample Page" if it is still present.
+SAMPLE_ID="$(wp post list --post_type=page --name="sample-page" --field=ID 2>/dev/null | tail -1)"
+if [ -n "$SAMPLE_ID" ]; then
+	wp post delete "$SAMPLE_ID" --force >/dev/null 2>&1 || true
+fi
+
+# Order the primary pages as they appear in the navigation page list.
+for entry in "home:1" "journal:2" "about:3" "contact:4"; do
+	slug="${entry%%:*}"
+	order="${entry##*:}"
+	pid="$(wp post list --post_type=page --name="$slug" --field=ID 2>/dev/null | tail -1)"
+	if [ -n "$pid" ]; then
+		wp post update "$pid" --menu_order="$order" >/dev/null 2>&1 || true
+	fi
+done
 
 echo
 echo "Done. Visit: ${URL}"
