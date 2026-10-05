@@ -4,7 +4,7 @@
 #   1. bring up MariaDB + WordPress
 #   2. install WordPress (if needed) and activate the theme
 #   3. install pinned plugins
-#   4. seed sample galleries, pages and a journal entry
+#   4. seed sample galleries, pages and a post
 #
 # Usage: ./scripts/init-wordpress.sh
 #

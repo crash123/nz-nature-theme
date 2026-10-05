@@ -33,7 +33,7 @@ personal_blog/
 ├── scripts/
 │   ├── init-wordpress.sh        # install WP, theme, plugins, seed content
 │   ├── install-plugins.sh       # install plugins from plugins.txt
-│   ├── seed.php                 # sample galleries, pages, journal entry
+│   ├── seed.php                 # sample galleries, pages, post
 │   └── generate-placeholders.py # regenerate the placeholder "photos"
 ├── data/                        # local WP core + DB (gitignored)
 └── theme/nz-nature/
@@ -55,7 +55,7 @@ cp .env.example .env          # then edit the passwords
 ```
 
 This starts MariaDB + WordPress, installs and activates the theme, installs
-Meow Lightbox, and seeds sample galleries, pages and a journal entry.
+Meow Lightbox, and seeds sample galleries, pages and a post.
 
 - Site: <http://localhost:8080>
 - Admin: <http://localhost:8080/wp-admin/> (credentials in `.env`)
@@ -77,10 +77,10 @@ The site uses **Posts as galleries** and **Categories as collections**:
 | ------------ | ---------------------------------------------------------- |
 | Gallery      | A Post with a featured image (cover) + a Gallery block      |
 | Collection   | A Category (Travel, Landscape, Wildlife…)                   |
-| Journal      | The `journal` category — written posts, kept off Galleries  |
+| Posts        | The `posts` category — written posts, kept off Galleries    |
 
 The homepage shows **Collections** (category cards), **Latest photos**, a
-**map** and a journal call-to-action. The **Galleries** posts page and category
+**map** and a posts call-to-action. The **Galleries** posts page and category
 archives use masonry cover grids.
 
 ### Adding a gallery
@@ -137,7 +137,7 @@ OpenStreetMap/OpenTopoMap usage policies — fine for a personal site.
 | File / folder          | Purpose                                             |
 | ---------------------- | --------------------------------------------------- |
 | `theme.json`           | Colours, gradients, fonts, spacing, block styles    |
-| `inc/setup.php`        | Supports, image sizes, block styles, journal filter  |
+| `inc/setup.php`        | Supports, image sizes, block styles, posts filter    |
 | `inc/collections.php`  | `[nz_collections]`, `[nz_latest_photos]` shortcodes |
 | `inc/gps.php`          | GPS extraction + backfill                            |
 | `inc/meta.php`         | Gallery location meta box                            |

@@ -36,7 +36,7 @@ function nz_nature_collections_shortcode( $atts ) {
 	$atts = shortcode_atts(
 		array(
 			'columns'      => 3,
-			'exclude'      => 'uncategorized,journal',
+			'exclude'      => 'uncategorized,posts',
 			'count'        => 9,
 			'show_count'   => 'yes',
 			'show_all'     => 'no',
@@ -120,7 +120,7 @@ add_shortcode( 'nz_collections', 'nz_nature_collections_shortcode' );
  * Render the [nz_latest_photos] shortcode.
  *
  * A tidy grid of recent posts that have a featured image (i.e. galleries),
- * excluding a category (the written journal by default).
+ * excluding a category (the written posts by default).
  *
  * @param array $atts Shortcode attributes.
  * @return string
@@ -130,7 +130,7 @@ function nz_nature_latest_photos_shortcode( $atts ) {
 		array(
 			'count'   => 6,
 			'columns' => 3,
-			'exclude' => 'journal',
+			'exclude' => 'posts',
 		),
 		$atts,
 		'nz_latest_photos'

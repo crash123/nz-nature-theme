@@ -1,7 +1,7 @@
 <?php
 /**
  * Seed the NZ Nature photography site with sample galleries, pages and a
- * journal entry. Idempotent — safe to re-run.
+ * post. Idempotent — safe to re-run.
  *
  * Run with:
  *   docker compose run --rm wpcli wp eval-file /scripts/seed.php
@@ -109,7 +109,7 @@ $nz_cats = array(
 	'travel'    => 'Travel',
 	'landscape' => 'Landscape',
 	'wildlife'  => 'Wildlife',
-	'journal'   => 'Journal',
+	'posts'     => 'Posts',
 );
 $nz_cat_ids = array();
 foreach ( $nz_cats as $slug => $name ) {
@@ -262,20 +262,20 @@ foreach ( $nz_galleries as $gallery ) {
 }
 
 // -------------------------------------------------------------------------
-// 5. Journal entry.
+// 5. Sample written post.
 // -------------------------------------------------------------------------
 if ( ! get_page_by_path( 'first-light', OBJECT, 'post' ) ) {
-	$journal_id = wp_insert_post( array(
+	$nz_post_id = wp_insert_post( array(
 		'post_type'    => 'post',
 		'post_status'  => 'publish',
 		'post_title'   => 'Why I started carrying a camera into the hills',
 		'post_name'    => 'first-light',
 		'post_content' => '<!-- wp:paragraph --><p>The best light never waits. A few notes on slowing down, looking up, and learning to be patient with the weather in Aotearoa.</p><!-- /wp:paragraph -->',
 	) );
-	if ( $journal_id && ! is_wp_error( $journal_id ) && isset( $nz_cat_ids['journal'] ) ) {
-		wp_set_post_categories( $journal_id, array( $nz_cat_ids['journal'] ) );
+	if ( $nz_post_id && ! is_wp_error( $nz_post_id ) && isset( $nz_cat_ids['posts'] ) ) {
+		wp_set_post_categories( $nz_post_id, array( $nz_cat_ids['posts'] ) );
 	}
-	$log( 'Journal entry created.' );
+	$log( 'Post created.' );
 }
 
 // -------------------------------------------------------------------------
@@ -296,4 +296,4 @@ if ( $sample ) {
 }
 
 update_option( 'nz_nature_seeded', current_time( 'mysql' ) );
-$log( 'Done. Seeded galleries, collections, pages and a journal entry.' );
+$log( 'Done. Seeded galleries, collections, pages and a post.' );

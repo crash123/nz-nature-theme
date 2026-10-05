@@ -131,17 +131,17 @@ add_filter( 'image_size_names_choose', 'nz_nature_image_size_names' );
 
 /**
  * The Galleries page (posts page) lists photo galleries, so keep written
- * journal entries (category: journal) out of it.
+ * posts (category: posts) out of it.
  *
  * @param WP_Query $query Main query.
  */
-function nz_nature_exclude_journal_from_home( $query ) {
+function nz_nature_exclude_posts_from_home( $query ) {
 	if ( is_admin() || ! $query->is_main_query() || ! $query->is_home() ) {
 		return;
 	}
-	$journal = get_category_by_slug( 'journal' );
-	if ( $journal ) {
-		$query->set( 'cat', '-' . (int) $journal->term_id );
+	$posts_cat = get_category_by_slug( 'posts' );
+	if ( $posts_cat ) {
+		$query->set( 'cat', '-' . (int) $posts_cat->term_id );
 	}
 }
-add_action( 'pre_get_posts', 'nz_nature_exclude_journal_from_home' );
+add_action( 'pre_get_posts', 'nz_nature_exclude_posts_from_home' );
