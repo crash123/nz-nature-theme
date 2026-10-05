@@ -1,21 +1,23 @@
-# NZ Nature — personal WordPress blog
+# NZ Nature — photography blog
 
-A personal blog built on the latest WordPress, with a custom full-site-editing
-(block) theme inspired by Aotearoa New Zealand: pounamu forests, alpine peaks,
-kōwhai blossoms and the southern coast.
+A personal photography gallery site built on the latest WordPress, with a
+custom full-site-editing (block) theme inspired by Aotearoa New Zealand.
+Masonry galleries, an EXIF/GPS lightbox and embedded photo maps — all driven
+from one Git repository.
 
-- **WordPress** 7.1.2 (PHP 8.3)
-- **Database** MariaDB 11
-- **Theme** `nz-nature` — a block/FSE theme with generated SVG art
-- **Runs** locally with Docker Compose, deployed to Unraid with Docker Compose Manager
+- **WordPress** 7.1.2 (PHP 8.3) · **MariaDB** 11
+- **Theme** `nz-nature` — block/FSE, with generated SVG art and Leaflet maps
+- **Plugin** Meow Lightbox (pinned) — in-lightbox EXIF + GPS
+- **Maps** Leaflet + OpenStreetMap/TopoMap (vendored, no API key)
+- **Runs** locally with Docker Compose, deploys to Unraid with Compose Manager
 
 ---
 
 ## Requirements
 
 - Docker with the Compose plugin (`docker compose`)
-- For deployment: an Unraid server with the **Docker Compose Manager** plugin
-- For the optional seed content: nothing extra — `wp-cli` runs in a container
+- For Unraid: the **Docker Compose Manager** plugin
+- Optional (only to regenerate placeholder art): `rsvg-convert`
 
 ---
 
@@ -23,17 +25,24 @@ kōwhai blossoms and the southern coast.
 
 ```
 personal_blog/
-├── docker-compose.yml         # local development stack
-├── unraid/docker-compose.yml  # Unraid / Compose Manager stack
-├── .env.example               # copy to .env and set secrets
-├── scripts/init-wordpress.sh  # install WP + seed sample content
-├── data/                      # local WP core + DB (gitignored)
-└── theme/nz-nature/           # the custom block theme
-    ├── theme.json             # design tokens (colour, type, spacing)
-    ├── templates/             # FSE templates (index, single, front-page…)
-    ├── parts/                 # header + footer
-    ├── patterns/              # reusable block patterns
-    └── assets/                # theme.css + generated SVGs + screenshot
+├── docker-compose.yml           # local development stack
+├── docker/php/uploads.ini       # raises PHP upload limits for photos
+├── unraid/docker-compose.yml    # Unraid / Compose Manager stack (+ wp-cli)
+├── plugins.txt                  # pinned plugins
+├── .env.example                 # copy to .env and set secrets
+├── scripts/
+│   ├── init-wordpress.sh        # install WP, theme, plugins, seed content
+│   ├── install-plugins.sh       # install plugins from plugins.txt
+│   ├── seed.php                 # sample galleries, pages, journal entry
+│   └── generate-placeholders.py # regenerate the placeholder "photos"
+├── data/                        # local WP core + DB (gitignored)
+└── theme/nz-nature/
+    ├── theme.json               # design tokens
+    ├── functions.php            # loads inc/
+    ├── inc/                     # setup, collections, gps, meta, maps
+    ├── templates/               # FSE templates
+    ├── parts/ patterns/         # header, footer, block patterns
+    └── assets/                  # css, js, vendored Leaflet, images, placeholders
 ```
 
 ---
@@ -45,115 +54,153 @@ cp .env.example .env          # then edit the passwords
 ./scripts/init-wordpress.sh
 ```
 
-That starts MariaDB + WordPress, installs WordPress, activates the theme and
-creates a few sample posts. Then open:
+This starts MariaDB + WordPress, installs and activates the theme, installs
+Meow Lightbox, and seeds sample galleries, pages and a journal entry.
 
 - Site: <http://localhost:8080>
-- Admin: <http://localhost:8080/wp-admin/>
-
-Manual equivalent:
-
-```bash
-docker compose up -d
-docker compose --profile tools run --rm wpcli theme activate nz-nature
-```
+- Admin: <http://localhost:8080/wp-admin/> (credentials in `.env`)
 
 Stop / reset:
 
 ```bash
 docker compose down            # stop (keeps data)
-docker compose down -v         # stop and remove containers/networks
 rm -rf data                    # wipe WordPress + database (destructive)
 ```
 
 ---
 
+## How content is organised
+
+The site uses **Posts as galleries** and **Categories as collections**:
+
+| Concept      | Implementation                                             |
+| ------------ | ---------------------------------------------------------- |
+| Gallery      | A Post with a featured image (cover) + a Gallery block      |
+| Collection   | A Category (Travel, Landscape, Wildlife…)                   |
+| Journal      | The `journal` category — written posts, kept off Galleries  |
+
+The homepage shows **Collections** (category cards), **Latest photos**, a
+**map** and a journal call-to-action. The **Galleries** posts page and category
+archives use masonry cover grids.
+
+### Adding a gallery
+
+1. **Media → Add New** to upload your photos.
+2. **Posts → Add New**: give it a title, set a **Featured image** (the cover),
+   assign a **Category** (collection).
+3. Insert a **Gallery** block, add your photos, and set its style to
+   **Masonry** (block toolbar → Styles). Set link destination to *Media file*
+   so the lightbox works.
+4. Optionally set a **Gallery location** (see maps below).
+
+### Uploading photos
+
+- PHP limits are raised to **128 MB** per file (`docker/php/uploads.ini`).
+  Behind a reverse proxy also set `client_max_body_size 140m;`.
+- Recommended: export JPEGs at **2000–2560 px on the long edge**, quality ~85.
+  WordPress generates the smaller sizes it needs.
+- EXIF is read from **JPEG/TIFF** originals. RAW files are not supported by
+  WordPress — export to JPEG first.
+- WordPress downscales images above 2560 px ("big image" threshold); originals
+  are kept.
+
+---
+
+## Maps
+
+Photos are plotted on a Leaflet map using GPS coordinates read from each
+original file (cached in attachment meta). Maps appear on:
+
+- each gallery page (that gallery's photos),
+- the homepage and the **Places** page (all photos).
+
+Shortcode (place in a Shortcode block):
+
+```
+[nz_photo_map scope="gallery|all" height="460" tile="osm|topo"]
+```
+
+- `scope="gallery"` — the current post's photos; `scope="all"` — the whole site.
+- `tile="osm"` — OpenStreetMap, `tile="topo"` — OpenTopoMap (nice for tramping).
+
+**No GPS?** Most cameras don't record it. Use the **Gallery location** meta box
+on the post (place name + `lat, lng`) as a fallback pin. Copy coordinates from
+Google Maps.
+
+Map tiles require attribution (shown on the map) and are subject to the
+OpenStreetMap/OpenTopoMap usage policies — fine for a personal site.
+
+---
+
 ## Working on the theme
 
-The theme source lives in `theme/nz-nature/` and is bind-mounted straight into
-the container, so edits appear immediately.
+| File / folder          | Purpose                                             |
+| ---------------------- | --------------------------------------------------- |
+| `theme.json`           | Colours, gradients, fonts, spacing, block styles    |
+| `inc/setup.php`        | Supports, image sizes, block styles, journal filter  |
+| `inc/collections.php`  | `[nz_collections]`, `[nz_latest_photos]` shortcodes |
+| `inc/gps.php`          | GPS extraction + backfill                            |
+| `inc/meta.php`         | Gallery location meta box                            |
+| `inc/maps.php`         | `[nz_photo_map]` shortcode + Leaflet                |
+| `assets/css/theme.css` | Layout, masonry, collections, maps                  |
 
-| File / folder        | Purpose                                              |
-| -------------------- | ---------------------------------------------------- |
-| `theme.json`         | Colours, gradients, fonts, spacing, block styles      |
-| `assets/css/theme.css` | Layout, hero/motif art, block styles                |
-| `templates/`         | Page templates edited in **Appearance → Editor**      |
-| `parts/`             | Header and footer                                     |
-| `patterns/`          | Insert from the pattern inserter ("NZ Nature" category) |
-| `assets/images/`     | Generated SVGs: mountains, fern, koru, southern cross |
+After changing the theme, refresh the Site Editor (**Appearance → Editor**).
+Regenerate the placeholder art with `python3 scripts/generate-placeholders.py`.
 
-The SVG art is generated procedurally (no third-party photos), so there are no
-licensing concerns. Swap in your own photography with **Media → Add New** and
-set featured images on posts.
+---
 
-Regenerate `screenshot.png` if the design changes (requires `rsvg-convert`):
+## Plugin management
 
-```bash
-rsvg-convert -w 1200 -h 900 screenshot.svg -o theme/nz-nature/screenshot.png
-```
+Plugins are pinned in `plugins.txt` and installed by `scripts/install-plugins.sh`
+(idempotent). They live in `wp-content/plugins` (in `data/`, not Git). To change
+a version, edit `plugins.txt` and re-run the script.
 
 ---
 
 ## Deploy to Unraid (Docker Compose Manager)
 
-1. **Install the plugin**: Unraid → Community Applications → *Docker Compose Manager*.
-2. **Clone the repo onto the array** so the theme mount resolves:
+1. Install **Docker Compose Manager** from Community Applications.
+2. Clone the repo onto the array so the mounts resolve:
 
    ```bash
    git clone git@github.com:crash123/nz-nature-theme.git \
      /mnt/user/appdata/nz-nature-theme/repo
    ```
 
-3. **Create a stack**: in Docker Compose Manager choose *Add New Stack*, name it
-   `nz-nature-theme`, and paste the contents of `unraid/docker-compose.yml`.
-4. **Provide environment variables**: place a `.env` next to the stack (or use
-   the plugin's env editor) based on `.env.example`. Set `WP_HOME`/`WP_SITEURL`
-   to your real `https://` domain.
-5. **Start the stack.** The site is then reachable on the configured port.
+3. In Compose Manager, **Add New Stack** → `nz-nature-theme` and paste
+   `unraid/docker-compose.yml`.
+4. Provide a `.env` (based on `.env.example`); set `WP_HOME`/`WP_SITEURL` to
+   your real `https://` domain.
+5. Start the stack. Run one-off commands with the bundled helper service:
 
-### Reverse proxy / TLS
+   ```bash
+   docker compose --profile tools run --rm wpcli wp plugin list
+   ```
 
-If you front the site with SWAG, Nginx Proxy Manager or similar:
+**Reverse proxy / TLS:** point SWAG/NPM at the WordPress port, set the public
+URL in `.env`, set `client_max_body_size 140m;`, and uncomment the `FORCE_SSL_ADMIN`
+lines in `unraid/docker-compose.yml`.
 
-- Point the proxy at the Unraid host and the WordPress port (`8080` by default).
-- Set `WP_HOME` / `WP_SITEURL` to the public `https://` URL.
-- Uncomment the `FORCE_SSL_ADMIN` / `HTTP_X_FORWARDED_PROTO` lines in
-  `unraid/docker-compose.yml`.
-
-### Moving an existing local site
-
-If you already have local content, dump and import it:
-
-```bash
-docker compose --profile tools run --rm wpcli db export - > backup.sql
-# on Unraid, after the stack is up:
-docker compose --profile tools run --rm wpcli db import - < backup.sql
-docker compose --profile tools run --rm wpcli search-replace \
-  'http://localhost:8080' 'https://blog.example.com' --all-tables
-```
+**Migrating local content:** `wp db export` locally, then `wp db import` on the
+server, followed by `wp search-replace 'http://localhost:8080' 'https://your.domain' --all-tables`.
 
 ---
 
 ## Security notes
 
-- `.env` is **gitignored** — never commit it.
-- Change every password in `.env` before deploying; use long random values.
-- `DISALLOW_FILE_EDIT` is enabled to block the in-dashboard theme/plugin editor.
-- The Unraid stack pins `wordpress:7.1.2-php8.3-apache` and `mariadb:11`; update
-  deliberately and take a database backup first.
+- `.env` is gitignored — never commit it. Change every password before deploy.
+- `DISALLOW_FILE_EDIT` blocks the in-dashboard theme/plugin editor.
+- Images are pinned (`wordpress:7.1.2-php8.3-apache`, `mariadb:11`); update
+  deliberately and back up the database first.
 
 ---
 
 ## Git & GitHub
 
-This repository (`nz-nature-theme`, private) holds both the theme and the
-Docker/Unraid configuration.
+Private repo: `github.com/crash123/nz-nature-theme` (theme + Docker/Unraid).
 
 ```bash
-git remote -v           # origin → github.com:crash123/nz-nature-theme.git
-git add -A
-git commit -m "Update theme"
-git push
+git add -A && git commit -m "Update" && git push
 ```
 
 ---
@@ -161,3 +208,5 @@ git push
 ## License
 
 Theme: GNU General Public License v2 or later.
+Vendored Leaflet (BSD-2) and Leaflet.markercluster (MIT) — see
+`theme/nz-nature/assets/vendor/leaflet/NOTICE.txt`.

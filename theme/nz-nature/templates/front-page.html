@@ -8,18 +8,18 @@
 		<div class="wp-block-group alignwide">
 			<!-- wp:site-tagline {"style":{"typography":{"fontSize":"var:preset|font-size|medium"}},"textColor":"pounamu-deep"} /-->
 			<!-- wp:heading {"level":1,"fontSize":"mega","textColor":"pounamu-deep"} -->
-			<h1 class="wp-block-heading has-pounamu-deep-color has-text-color has-mega-font-size">Kia ora, welcome to the wild.</h1>
+			<h1 class="wp-block-heading has-pounamu-deep-color has-text-color has-mega-font-size">Aotearoa through a lens.</h1>
 			<!-- /wp:heading -->
 			<!-- wp:paragraph {"style":{"typography":{"fontSize":"var:preset|font-size|large"}},"textColor":"pounamu-deep"} -->
-			<p class="has-pounamu-deep-color has-text-color has-large-font-size">A personal blog rooted in Aotearoa — tramping tracks, southern alps, native bush, and the quiet beauty of these islands.</p>
+			<p class="has-pounamu-deep-color has-text-color has-large-font-size">Amateur photography from the wild places of New Zealand — mountains, coastlines, native forest and the long southern light.</p>
 			<!-- /wp:paragraph -->
 			<!-- wp:buttons -->
 			<div class="wp-block-buttons">
 				<!-- wp:button -->
-				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/journal/">Read the journal</a></div>
+				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/galleries/">Browse galleries</a></div>
 				<!-- /wp:button -->
 				<!-- wp:button {"className":"is-style-outline-pounamu"} -->
-				<div class="wp-block-button is-style-outline-pounamu"><a class="wp-block-button__link wp-element-button" href="/about/">About</a></div>
+				<div class="wp-block-button is-style-outline-pounamu"><a class="wp-block-button__link wp-element-button" href="/places/">Photo map</a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->
@@ -28,66 +28,90 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
-	<div class="wp-block-group alignfull has-base-2-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|60"}}},"backgroundColor":"base-2","layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull has-base-2-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--60)">
 		<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 		<div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)">
 			<!-- wp:heading {"level":2} -->
-			<h2 class="wp-block-heading">Recent field notes</h2>
+			<h2 class="wp-block-heading">Collections</h2>
 			<!-- /wp:heading -->
 			<!-- wp:paragraph {"textColor":"fern"} -->
-			<p class="has-fern-color has-text-color">Latest entries from the trail.</p>
+			<p class="has-fern-color has-text-color">Browse by theme or place.</p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:query {"queryId":2,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"align":"wide","layout":{"type":"default"}} -->
-		<div class="wp-block-query alignwide">
-			<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-				<!-- wp:group {"className":"is-style-driftwood-card","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"border":{"radius":"14px"}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
-				<div class="wp-block-group is-style-driftwood-card has-base-background-color has-background" style="border-radius:14px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)">
-					<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","style":{"border":{"radius":"10px"}}} /-->
-					<!-- wp:post-terms {"term":"category","fontSize":"small"} /-->
-					<!-- wp:post-title {"isLink":true,"level":3,"fontSize":"large"} /-->
-					<!-- wp:post-date {"fontSize":"small","textColor":"fern"} /-->
-				</div>
-				<!-- /wp:group -->
-			<!-- /wp:post-template -->
-		</div>
-		<!-- /wp:query -->
+		<!-- wp:shortcode {"align":"wide"} -->
+		[nz_collections columns="3"]
+		<!-- /wp:shortcode -->
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
-		<!-- wp:columns {"align":"wide","verticalAlignment":"center"} -->
-		<div class="wp-block-columns alignwide are-vertically-aligned-center">
-			<!-- wp:column {"verticalAlignment":"center"} -->
-			<div class="wp-block-column is-vertically-aligned-center">
-				<!-- wp:heading {"level":2} -->
-				<h2 class="wp-block-heading">Titiro whakamuri, kōkiri whakamua</h2>
-				<!-- /wp:heading -->
-				<!-- wp:paragraph -->
-				<p>Look back and reflect, so you can move forward. This blog is a place to record the places I've been, the light I've chased, and the lessons the whenua keeps teaching.</p>
-				<!-- /wp:paragraph -->
-				<!-- wp:paragraph {"fontSize":"small","textColor":"fern"} -->
-				<p class="has-fern-color has-text-color has-small-font-size">Kaitiakitanga — guardianship of the land — shapes how we travel here. Leave no trace, take only photographs.</p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:column -->
-			<!-- wp:column {"verticalAlignment":"center"} -->
-			<div class="wp-block-column is-vertically-aligned-center">
-				<!-- wp:group {"className":"nz-motif nz-motif--fern","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60","left":"var:preset|spacing|60","right":"var:preset|spacing|60"}},"border":{"radius":"14px"}},"gradient":"fern-canopy","layout":{"type":"constrained"}} -->
-				<div class="wp-block-group nz-motif nz-motif--fern has-fern-canopy-gradient-background has-background" style="border-radius:14px;padding-top:var(--wp--preset--spacing--60);padding-right:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60);padding-left:var(--wp--preset--spacing--60)">
-					<!-- wp:paragraph {"align":"center","textColor":"sand","style":{"typography":{"fontSize":"var:preset|font-size|large"}}} -->
-					<p class="has-text-align-center has-sand-color has-text-color has-large-font-size">He waka eke noa.</p>
-					<!-- /wp:paragraph -->
-				</div>
-				<!-- /wp:group -->
-			</div>
-			<!-- /wp:column -->
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+		<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
+		<div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)">
+			<!-- wp:heading {"level":2} -->
+			<h2 class="wp-block-heading">Latest photos</h2>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph {"textColor":"fern"} -->
+			<p class="has-fern-color has-text-color">Fresh from the camera roll.</p>
+			<!-- /wp:paragraph -->
 		</div>
-		<!-- /wp:columns -->
+		<!-- /wp:group -->
+
+		<!-- wp:shortcode {"align":"wide"} -->
+		[nz_latest_photos count="6" columns="3"]
+		<!-- /wp:shortcode -->
+
+		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->
+		<div class="wp-block-buttons" style="margin-top:var(--wp--preset--spacing--50)">
+			<!-- wp:button {"className":"is-style-outline-pounamu"} -->
+			<div class="wp-block-button is-style-outline-pounamu"><a class="wp-block-button__link wp-element-button" href="/galleries/">All galleries</a></div>
+			<!-- /wp:button -->
+		</div>
+		<!-- /wp:buttons -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--70)">
+		<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
+		<div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--40)">
+			<!-- wp:heading {"level":2} -->
+			<h2 class="wp-block-heading">Where I've been</h2>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph {"textColor":"fern"} -->
+			<p class="has-fern-color has-text-color">Every pinned photo on one map.</p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- wp:shortcode {"align":"wide"} -->
+		[nz_photo_map scope="all" height="460" tile="topo"]
+		<!-- /wp:shortcode -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","gradient":"fern-canopy","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+	<div class="wp-block-group alignfull has-fern-canopy-gradient-background has-background" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+		<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
+		<div class="wp-block-group alignwide">
+			<!-- wp:heading {"level":2,"textColor":"sand"} -->
+			<h2 class="wp-block-heading has-sand-color has-text-color">Notes from the backcountry</h2>
+			<!-- /wp:heading -->
+			<!-- wp:paragraph {"textColor":"limestone"} -->
+			<p class="has-limestone-color has-text-color">Alongside the photographs I keep a written journal — the stories, the weather, the misadventures.</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:buttons -->
+			<div class="wp-block-buttons">
+				<!-- wp:button -->
+				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/category/journal/">Read the journal</a></div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+		</div>
+		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
 </main>

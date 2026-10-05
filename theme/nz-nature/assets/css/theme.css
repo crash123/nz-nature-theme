@@ -261,3 +261,265 @@ textarea {
 		display: none !important;
 	}
 }
+
+/* -------------------------------------------------------------------------
+ * Photography — collections & latest photos
+ * ------------------------------------------------------------------- */
+.nz-collections,
+.nz-photos {
+	display: grid;
+	gap: var(--wp--preset--spacing--40);
+}
+
+.nz-collections--cols-1,
+.nz-photos--cols-1 { grid-template-columns: 1fr; }
+.nz-collections--cols-2,
+.nz-photos--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.nz-collections--cols-3,
+.nz-photos--cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.nz-collections--cols-4,
+.nz-photos--cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.nz-collection {
+	position: relative;
+	display: block;
+	min-height: 260px;
+	border-radius: 14px;
+	overflow: hidden;
+	text-decoration: none;
+	box-shadow: var(--nz-shadow-soft);
+	transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.nz-collection:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--nz-shadow-card);
+}
+
+.nz-collection__cover {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	filter: brightness(0.82) saturate(1.05);
+	transition: transform 0.6s ease;
+}
+
+.nz-collection:hover .nz-collection__cover {
+	transform: scale(1.06);
+}
+
+.nz-collection__body {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	min-height: 260px;
+	padding: var(--wp--preset--spacing--40);
+	background: linear-gradient(180deg, rgba(11, 42, 32, 0) 35%, rgba(11, 42, 32, 0.88) 100%);
+	color: #fff;
+}
+
+.nz-collection__name,
+.nz-photo__title {
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.nz-collection__name { font-size: 1.5rem; }
+
+.nz-collection__count,
+.nz-photo__meta {
+	font-size: 0.8rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.9;
+}
+
+.nz-photo {
+	display: block;
+	border-radius: 14px;
+	overflow: hidden;
+	background: var(--wp--preset--color--base);
+	text-decoration: none;
+	color: inherit;
+	box-shadow: var(--nz-shadow-soft);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nz-photo:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--nz-shadow-card);
+}
+
+.nz-photo__img {
+	display: block;
+	aspect-ratio: 4 / 3;
+	background-size: cover;
+	background-position: center;
+	transition: transform 0.6s ease;
+}
+
+.nz-photo:hover .nz-photo__img {
+	transform: scale(1.05);
+}
+
+.nz-photo__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: var(--wp--preset--spacing--30);
+}
+
+.nz-photo__title { font-size: 1.15rem; }
+.nz-photo__meta { color: var(--wp--preset--color--fern); }
+
+/* -------------------------------------------------------------------------
+ * Photography — masonry galleries (query loop + gallery block)
+ * ------------------------------------------------------------------- */
+.wp-block-post-template.nz-masonry {
+	display: block !important;
+	column-count: 3;
+	column-gap: var(--wp--preset--spacing--40);
+}
+
+.wp-block-post-template.nz-masonry > li {
+	break-inside: avoid;
+	width: 100%;
+	margin: 0 0 var(--wp--preset--spacing--40) !important;
+	padding: 0;
+	list-style: none;
+}
+
+.nz-gallery-card {
+	box-shadow: var(--nz-shadow-soft);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nz-gallery-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--nz-shadow-card);
+}
+
+.wp-block-gallery.is-style-masonry {
+	display: block !important;
+	column-count: 3;
+	column-gap: var(--wp--preset--spacing--30);
+}
+
+.wp-block-gallery.is-style-masonry > figure.wp-block-image {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	flex: none !important;
+	break-inside: avoid;
+	margin: 0 0 var(--wp--preset--spacing--30) !important;
+}
+
+.wp-block-gallery.is-style-masonry > figure.wp-block-image > a,
+.wp-block-gallery.is-style-masonry > figure.wp-block-image > div {
+	display: block !important;
+	width: 100% !important;
+}
+
+.wp-block-gallery.is-style-masonry > figure.wp-block-image img {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	height: auto !important;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+.wp-block-gallery.is-style-tight {
+	gap: 3px !important;
+}
+
+.wp-block-gallery.is-style-tight img {
+	border-radius: 3px;
+}
+
+.wp-block-gallery.is-style-full-bleed {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	border-radius: 0;
+}
+
+.wp-block-gallery img {
+	border-radius: 8px;
+}
+
+.wp-block-image.is-style-frameless img {
+	box-shadow: none;
+	border-radius: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Photography — maps
+ * ------------------------------------------------------------------- */
+.nz-map-wrap {
+	margin-top: var(--wp--preset--spacing--40);
+}
+
+.nz-map {
+	width: 100%;
+	border-radius: 14px;
+	overflow: hidden;
+	background: var(--wp--preset--color--limestone);
+	box-shadow: var(--nz-shadow-soft);
+	z-index: 0;
+}
+
+.nz-map img {
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.nz-map-popup img {
+	width: 190px;
+	height: auto;
+	border-radius: 6px;
+	display: block;
+	margin-bottom: 0.4rem;
+}
+
+.nz-map-popup__title {
+	margin: 0;
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.nz-map-empty {
+	padding: var(--wp--preset--spacing--40);
+	border-radius: 14px;
+	background: var(--wp--preset--color--limestone);
+	color: var(--wp--preset--color--pounamu);
+	text-align: center;
+}
+
+@media (max-width: 900px) {
+	.wp-block-post-template.nz-masonry,
+	.wp-block-gallery.is-style-masonry {
+		column-count: 2;
+	}
+}
+
+@media (max-width: 640px) {
+	.wp-block-post-template.nz-masonry,
+	.wp-block-gallery.is-style-masonry {
+		column-count: 1;
+	}
+
+	.nz-collections--cols-2,
+	.nz-collections--cols-3,
+	.nz-collections--cols-4,
+	.nz-photos--cols-2,
+	.nz-photos--cols-3,
+	.nz-photos--cols-4 {
+		grid-template-columns: 1fr;
+	}
+}

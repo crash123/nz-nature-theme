@@ -96,6 +96,13 @@
 				{ "slug": "mega", "name": "Mega", "size": "clamp(3rem, 8vw, 5.5rem)" }
 			]
 		},
+		"blocks": {
+			"core/image": {
+				"lightbox": {
+					"enabled": false
+				}
+			}
+		},
 		"custom": {
 			"radius": {
 				"small": "6px",

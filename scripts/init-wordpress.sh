@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Initialise the local NZ Nature WordPress stack:
+# Set up the local NZ Nature WordPress stack:
 #   1. bring up MariaDB + WordPress
-#   2. install WordPress (if not already installed)
-#   3. activate the NZ Nature theme
-#   4. create sample content and menus
+#   2. install WordPress (if needed) and activate the theme
+#   3. install pinned plugins
+#   4. seed sample galleries, pages and a journal entry
 #
 # Usage: ./scripts/init-wordpress.sh
 #
@@ -75,72 +75,18 @@ else
 	echo "WordPress already installed."
 fi
 
-echo "Configuring site..."
-wp option update blogdescription "Field notes from Aotearoa New Zealand"
-wp option update timezone_string "Pacific/Auckland"
-wp option update blogpublic 1 >/dev/null 2>&1 || true
-wp rewrite structure '/%postname%/' --hard >/dev/null 2>&1 || true
-
 echo "Activating the NZ Nature theme..."
 wp theme activate nz-nature
+wp rewrite structure '/%postname%/' --hard >/dev/null 2>&1 || true
 
-if ! wp post list --post_type=post --name="first-light-on-the-tongariro-alpine-crossing" --format=ids 2>/dev/null | grep -q '[0-9]'; then
-	echo "Creating sample content..."
+echo "Installing plugins..."
+"$ROOT/scripts/install-plugins.sh"
 
-	wp post create --post_type=post --post_status=publish \
-		--post_title="First light on the Tongariro Alpine Crossing" \
-		--post_content='The alarm went off at 4:30am in a frosty car park. By the time the sun cleared Ngauruhoe, the whole plateau was glowing. Three volcanoes, one endless sky, and the quiet crunch of scoria underfoot.' \
-		--post_excerpt="An early start for the best day walk in the North Island."
+echo "Seeding content..."
+wp eval-file /scripts/seed.php
 
-	wp post create --post_type=post --post_status=publish \
-		--post_title="Rain and light in Fiordland" \
-		--post_content='They say Fiordland gets seven metres of rain a year, and it shows. Between the downpours the valleys filled with mist and the waterfalls multiplied. Some places are not meant to be seen in the sun.' \
-		--post_excerpt="Chasing waterfalls and silence in the deep south."
-
-	wp post create --post_type=page --post_status=publish \
-		--post_title="About" \
-		--post_content='Kia ora. This is a personal blog about the wild places of Aotearoa New Zealand — tramping, photography, and the lessons the whenua teaches. Written from the bottom of the world.'
-
-	wp post create --post_type=page --post_status=publish \
-		--post_title="Contact" \
-		--post_content='Ngā mihi for stopping by. You can reach me at hello@example.com.'
-fi
-
-# Set up a static front page ("Home") and a "Journal" posts page so the hero's
-# "Read the journal" button has a real destination. The front-page template
-# renders Home; the Journal page renders the post index.
-if [ "$(wp option get show_on_front 2>/dev/null | tail -1)" != "page" ]; then
-	echo "Setting up Home and Journal pages..."
-	HOME_ID="$(wp post create --post_type=page --post_status=publish --post_title="Home" --porcelain 2>/dev/null | tail -1)"
-	JOURNAL_ID="$(wp post create --post_type=page --post_status=publish --post_title="Journal" --porcelain 2>/dev/null | tail -1)"
-	wp option update show_on_front page >/dev/null
-	wp option update page_on_front "$HOME_ID" >/dev/null
-	wp option update page_for_posts "$JOURNAL_ID" >/dev/null
-
-	# WordPress can materialise a "Front Page" wp_template override in the
-	# database when a static front page is set. Remove it so the Git-tracked
-	# theme file stays authoritative.
-	FRONT_TID="$(wp post list --post_type=wp_template --name="front-page" --field=ID 2>/dev/null | tail -1)"
-	if [ -n "$FRONT_TID" ]; then
-		wp post delete "$FRONT_TID" --force >/dev/null 2>&1 || true
-	fi
-fi
-
-# Remove the default "Sample Page" if it is still present.
-SAMPLE_ID="$(wp post list --post_type=page --name="sample-page" --field=ID 2>/dev/null | tail -1)"
-if [ -n "$SAMPLE_ID" ]; then
-	wp post delete "$SAMPLE_ID" --force >/dev/null 2>&1 || true
-fi
-
-# Order the primary pages as they appear in the navigation page list.
-for entry in "home:1" "journal:2" "about:3" "contact:4"; do
-	slug="${entry%%:*}"
-	order="${entry##*:}"
-	pid="$(wp post list --post_type=page --name="$slug" --field=ID 2>/dev/null | tail -1)"
-	if [ -n "$pid" ]; then
-		wp post update "$pid" --menu_order="$order" >/dev/null 2>&1 || true
-	fi
-done
+echo "Scanning existing media for GPS (harmless if none)..."
+wp eval 'echo "GPS-tagged attachments: " . nz_nature_gps_backfill() . "\n";'
 
 echo
 echo "Done. Visit: ${URL}"

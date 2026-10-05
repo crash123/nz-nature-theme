@@ -5,29 +5,27 @@
 	<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
 	<div class="wp-block-group alignwide" style="margin-bottom:var(--wp--preset--spacing--50)">
 		<!-- wp:heading {"level":1,"fontSize":"mega"} -->
-		<h1 class="wp-block-heading has-mega-font-size">Journal</h1>
+		<h1 class="wp-block-heading has-mega-font-size">Galleries</h1>
 		<!-- /wp:heading -->
 		<!-- wp:paragraph {"textColor":"fern","fontSize":"large"} -->
-		<p class="has-fern-color has-text-color has-large-font-size">Field notes, photographs and thoughts from the New Zealand backcountry.</p>
+		<p class="has-fern-color has-text-color has-large-font-size">Photo collections from across Aotearoa New Zealand.</p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:query {"queryId":1,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"align":"wide","layout":{"type":"default"}} -->
+	<!-- wp:query {"queryId":1,"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-query alignwide">
-		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-			<!-- wp:group {"className":"is-style-driftwood-card","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"border":{"radius":"14px"}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
-			<div class="wp-block-group is-style-driftwood-card has-base-background-color has-background" style="border-radius:14px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)">
-				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","style":{"border":{"radius":"10px"}}} /-->
+		<!-- wp:post-template {"className":"nz-masonry","layout":{"type":"default"}} -->
+			<!-- wp:group {"className":"nz-gallery-card","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30","left":"var:preset|spacing|30","right":"var:preset|spacing|30"}},"border":{"radius":"14px"}},"backgroundColor":"base","layout":{"type":"constrained"}} -->
+			<div class="wp-block-group nz-gallery-card has-base-background-color has-background" style="border-radius:14px;padding-top:var(--wp--preset--spacing--30);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30);padding-left:var(--wp--preset--spacing--30)">
+				<!-- wp:post-featured-image {"isLink":true,"sizeSlug":"large","style":{"border":{"radius":"10px"}}} /-->
 				<!-- wp:post-terms {"term":"category","fontSize":"small"} /-->
-				<!-- wp:post-title {"isLink":true,"level":2,"fontSize":"x-large"} /-->
-				<!-- wp:post-date {"fontSize":"small","textColor":"fern"} /-->
-				<!-- wp:post-excerpt {"moreText":"Read on","excerptLength":24} /-->
+				<!-- wp:post-title {"isLink":true,"level":2,"fontSize":"large"} /-->
 			</div>
 			<!-- /wp:group -->
 		<!-- /wp:post-template -->
 
-		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between"}} -->
+		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"space-between"},"style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}}} -->
 			<!-- wp:query-pagination-previous /-->
 			<!-- wp:query-pagination-numbers /-->
 			<!-- wp:query-pagination-next /-->
@@ -35,7 +33,7 @@
 
 		<!-- wp:query-no-results -->
 			<!-- wp:paragraph -->
-			<p>The trail is quiet here for now. Check back soon.</p>
+			<p>No galleries yet — add a post with a featured image and photos.</p>
 			<!-- /wp:paragraph -->
 		<!-- /wp:query-no-results -->
 	</div>

@@ -41,6 +41,7 @@ services:
     volumes:
       - ./data/wordpress:/var/www/html
       - ./theme/nz-nature:/var/www/html/wp-content/themes/nz-nature
+      - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     networks:
       - nz-nature
 
@@ -61,6 +62,7 @@ services:
     volumes:
       - ./data/wordpress:/var/www/html
       - ./theme/nz-nature:/var/www/html/wp-content/themes/nz-nature
+      - ./scripts:/scripts:ro
     networks:
       - nz-nature
 
