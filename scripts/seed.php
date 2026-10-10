@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $nz_args  = isset( $args ) ? (array) $args : array();
 $nz_force = in_array( 'force', $nz_args, true ) || in_array( '--force', $nz_args, true );
+$nz_pages_only = in_array( 'pages', $nz_args, true );
 
 $log = function ( $message ) {
 	if ( class_exists( 'WP_CLI' ) ) {
@@ -165,6 +166,10 @@ foreach ( get_posts( array( 'post_type' => 'wp_template', 'name' => 'front-page'
 	wp_delete_post( $tpl->ID, true );
 }
 
+// Sample content (placeholders, galleries, a post) — skipped in "pages" mode,
+// which creates only the pages and categories the navigation needs.
+if ( ! $nz_pages_only ) {
+
 // -------------------------------------------------------------------------
 // 3. Import placeholder images.
 // -------------------------------------------------------------------------
@@ -271,6 +276,8 @@ if ( ! get_page_by_path( 'first-light', OBJECT, 'post' ) ) {
 	$log( 'Post created.' );
 }
 
+} // end sample content
+
 // -------------------------------------------------------------------------
 // 6. Page order (navigation page list).
 // -------------------------------------------------------------------------
@@ -289,4 +296,4 @@ if ( $sample ) {
 }
 
 update_option( 'nz_nature_seeded', current_time( 'mysql' ) );
-$log( 'Done. Seeded galleries, collections, pages and a post.' );
+$log( $nz_pages_only ? 'Done. Seeded pages and categories.' : 'Done. Seeded galleries, collections, pages and a post.' );

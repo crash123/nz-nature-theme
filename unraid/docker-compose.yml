@@ -47,14 +47,17 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WORDPRESS_TABLE_PREFIX: wp_
-      # If TLS terminates at a reverse proxy (SWAG/NPM), also add these lines
-      # inside WORDPRESS_CONFIG_EXTRA below:
-      #   define( 'FORCE_SSL_ADMIN', true );
-      #   $_SERVER['HTTPS'] = 'on';
+      # TLS is terminated at the reverse proxy (SWAG/NPM). Trust its forwarded
+      # header and force the admin over HTTPS. Note: `$$` escapes `$` so the
+      # variables reach PHP literally instead of being interpolated by Compose.
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_HOME', '${WP_HOME}' );
         define( 'WP_SITEURL', '${WP_SITEURL}' );
         define( 'DISALLOW_FILE_EDIT', true );
+        if ( isset( $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+        define( 'FORCE_SSL_ADMIN', true );
     volumes:
       - ${APPDATA:-/mnt/user/appdata/nz-nature-theme}/wordpress:/var/www/html
       - ${APPDATA:-/mnt/user/appdata/nz-nature-theme}/repo/theme/nz-nature:/var/www/html/wp-content/themes/nz-nature

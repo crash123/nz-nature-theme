@@ -183,9 +183,34 @@ a version, edit `plugins.txt` and re-run the script.
    docker compose --profile tools run --rm wpcli wp plugin list
    ```
 
-**Reverse proxy / TLS:** point SWAG/NPM at the WordPress port, set the public
-URL in `.env`, set `client_max_body_size 140m;`, and uncomment the `FORCE_SSL_ADMIN`
-lines in `unraid/docker-compose.yml`.
+**Reverse proxy / TLS:** point SWAG/NPM at the WordPress port, set
+`client_max_body_size 140m;`, and set the `https://` URL in `.env`. The stack
+already trusts `X-Forwarded-Proto` and forces `FORCE_SSL_ADMIN`, so WordPress
+reports HTTPS correctly behind the proxy.
+
+### First run on Unraid (wp-cli)
+
+Run these from the Compose Manager project directory
+(`/boot/config/plugins/compose.manager/projects/nz-nature-theme/`) so they use
+the correct stack, network and `.env`:
+
+```bash
+# Install WordPress (skip if already installed — check `wp core is-installed`)
+docker compose --profile tools run --rm wpcli wp core install \
+  --url="https://your.domain" --title="Rob's Things" \
+  --admin_user=admin --admin_password='<strong>' --admin_email=you@example.com --skip-email
+
+# Theme, plugin and permalinks
+docker compose --profile tools run --rm wpcli wp theme activate nz-nature
+docker compose --profile tools run --rm wpcli wp plugin install meow-lightbox --version=5.6.2 --activate
+docker compose --profile tools run --rm wpcli wp rewrite structure '/%postname%/' --hard
+
+# Pages + categories only (no sample content) — add `force` to re-run
+docker compose --profile tools run --rm wpcli wp eval-file /scripts/seed.php pages
+```
+
+Run `wp eval-file /scripts/seed.php` (without `pages`) to also create the sample
+galleries and placeholder images.
 
 **Migrating local content:** `wp db export` locally, then `wp db import` on the
 server, followed by `wp search-replace 'http://localhost:8080' 'https://your.domain' --all-tables`.
