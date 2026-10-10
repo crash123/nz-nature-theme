@@ -5,7 +5,7 @@ custom full-site-editing (block) theme inspired by Aotearoa New Zealand.
 Masonry galleries, an EXIF/GPS lightbox and embedded photo maps — all driven
 from one Git repository.
 
-- **WordPress** 7.1.2 (PHP 8.3) · **MariaDB** 11
+- **WordPress** 7.1.3 (PHP 8.3) · **MariaDB** 11
 - **Theme** `nz-nature` — block/FSE, with generated SVG art and Leaflet maps
 - **Plugin** Meow Lightbox (pinned) — in-lightbox EXIF + GPS
 - **Maps** Leaflet + OpenStreetMap/TopoMap (vendored, no API key)
@@ -190,7 +190,7 @@ server, followed by `wp search-replace 'http://localhost:8080' 'https://your.dom
 
 - `.env` is gitignored — never commit it. Change every password before deploy.
 - `DISALLOW_FILE_EDIT` blocks the in-dashboard theme/plugin editor.
-- Images are pinned (`wordpress:7.1.2-php8.3-apache`, `mariadb:11`); update
+- Images are pinned (`wordpress:7.1.3-php8.3-apache`, `mariadb:11`); update
   deliberately and back up the database first.
 
 ---
