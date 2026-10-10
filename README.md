@@ -161,12 +161,17 @@ a version, edit `plugins.txt` and re-run the script.
 ## Deploy to Unraid (Docker Compose Manager)
 
 1. Install **Docker Compose Manager** from Community Applications.
-2. Clone the repo onto the array so the mounts resolve:
+2. Clone the repo onto the array (the repository is public, so no credentials
+   are needed) so the mounts resolve:
 
    ```bash
-   git clone git@github.com:crash123/nz-nature-theme.git \
+   git clone https://github.com/crash123/nz-nature-theme.git \
      /mnt/user/appdata/nz-nature-theme/repo
    ```
+
+   Update it later with `git -C /mnt/user/appdata/nz-nature-theme/repo pull`.
+   (If the repo is ever made private again, use a fine-grained token or an SSH
+   deploy key.)
 
 3. In Compose Manager, **Add New Stack** → `nz-nature-theme` and paste
    `unraid/docker-compose.yml`.
@@ -198,7 +203,7 @@ server, followed by `wp search-replace 'http://localhost:8080' 'https://your.dom
 
 ## Git & GitHub
 
-Private repo: `github.com/crash123/nz-nature-theme` (theme + Docker/Unraid).
+Public repo: `github.com/crash123/nz-nature-theme` (theme + Docker/Unraid).
 
 ```bash
 git add -A && git commit -m "Update" && git push
@@ -208,6 +213,6 @@ git add -A && git commit -m "Update" && git push
 
 ## License
 
-Theme: GNU General Public License v2 or later.
+GNU General Public License v2.0 or later — see [LICENSE](LICENSE).
 Vendored Leaflet (BSD-2) and Leaflet.markercluster (MIT) — see
 `theme/nz-nature/assets/vendor/leaflet/NOTICE.txt`.
