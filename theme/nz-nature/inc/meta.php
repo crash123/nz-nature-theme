@@ -41,7 +41,7 @@ function nz_nature_render_location_meta_box( $post ) {
 		<label for="nz_location_label"><strong><?php esc_html_e( 'Place name', 'nz-nature' ); ?></strong></label><br />
 		<input type="text" class="widefat" id="nz_location_label" name="nz_location_label"
 			value="<?php echo esc_attr( $label ); ?>"
-			placeholder="<?php esc_attr_e( 'e.g. Milford Sound', 'nz-nature' ); ?>" />
+			placeholder="<?php esc_attr_e( 'e.g. 48.8584, 2.2945', 'nz-nature' ); ?>" />
 	</p>
 	<p>
 		<label for="nz_location"><strong><?php esc_html_e( 'Coordinates', 'nz-nature' ); ?></strong></label><br />

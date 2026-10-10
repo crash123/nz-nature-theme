@@ -1,7 +1,8 @@
 # NZ Nature — photography blog
 
-A personal photography gallery site built on the latest WordPress, with a
-custom full-site-editing (block) theme inspired by Aotearoa New Zealand.
+A travel photography gallery site built on the latest WordPress, with a
+custom full-site-editing (block) theme with a New Zealand flavour — for
+sharing photos from anywhere in the world.
 Masonry galleries, an EXIF/GPS lightbox and embedded photo maps — all driven
 from one Git repository.
 

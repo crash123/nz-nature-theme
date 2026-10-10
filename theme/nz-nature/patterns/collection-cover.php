@@ -12,10 +12,10 @@
 	<span aria-hidden="true" class="wp-block-cover__background has-pounamu-deep-background-color has-background-dim-40 has-background-dim"></span>
 	<div class="wp-block-cover__inner-container">
 		<!-- wp:heading {"textColor":"sand","fontSize":"xx-large"} -->
-		<h2 class="wp-block-heading has-sand-color has-text-color has-xx-large-font-size"><?php esc_html_e( 'Fiordland', 'nz-nature' ); ?></h2>
+		<h2 class="wp-block-heading has-sand-color has-text-color has-xx-large-font-size"><?php esc_html_e( 'Collection name', 'nz-nature' ); ?></h2>
 		<!-- /wp:heading -->
 		<!-- wp:paragraph {"textColor":"limestone"} -->
-		<p class="has-limestone-color has-text-color"><?php esc_html_e( 'Rain, waterfalls and silence in the deep south.', 'nz-nature' ); ?></p>
+		<p class="has-limestone-color has-text-color"><?php esc_html_e( 'A short description of this trip or collection.', 'nz-nature' ); ?></p>
 		<!-- /wp:paragraph -->
 		<!-- wp:buttons -->
 		<div class="wp-block-buttons">

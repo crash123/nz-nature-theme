@@ -13,10 +13,10 @@
 	<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"constrained"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:heading {"level":1,"fontSize":"mega","textColor":"pounamu-deep"} -->
-		<h1 class="wp-block-heading has-pounamu-deep-color has-text-color has-mega-font-size">Into the southern alps</h1>
+		<h1 class="wp-block-heading has-pounamu-deep-color has-text-color has-mega-font-size">My world through a lens</h1>
 		<!-- /wp:heading -->
 		<!-- wp:paragraph {"fontSize":"large","textColor":"pounamu-deep"} -->
-		<p class="has-pounamu-deep-color has-text-color has-large-font-size">Where the mountains meet the sea, and every track tells a story.</p>
+		<p class="has-pounamu-deep-color has-text-color has-large-font-size">Cities, coastlines and mountains — every journey tells a story.</p>
 		<!-- /wp:paragraph -->
 		<!-- wp:buttons -->
 		<div class="wp-block-buttons">

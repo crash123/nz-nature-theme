@@ -131,9 +131,9 @@ $log( 'Categories ready: ' . implode( ', ', $nz_cats ) );
 $nz_pages = array(
 	'home'      => array( 'Home', '' ),
 	'galleries' => array( 'Galleries', '' ),
-	'places'    => array( 'Places', '<!-- wp:shortcode -->[nz_photo_map scope="all" height="560" tile="topo"]<!-- /wp:shortcode -->' ),
-	'about'     => array( 'About', '<!-- wp:paragraph --><p>Kia ora — I\'m an amateur photographer based in Aotearoa New Zealand. This site collects the landscapes, coastline and wildlife I\'m lucky enough to point a camera at.</p><!-- /wp:paragraph -->' ),
-	'contact'   => array( 'Contact', '<!-- wp:paragraph --><p>Ngā mihi for stopping by. Say hello at <a href="mailto:hello@example.com">hello@example.com</a>.</p><!-- /wp:paragraph -->' ),
+	'places'    => array( 'Places', '<!-- wp:shortcode -->[nz_photo_map scope="all" height="560" tile="osm"]<!-- /wp:shortcode -->' ),
+	'about'     => array( 'About', '<!-- wp:paragraph --><p>Hello — I\'m an amateur photographer who loves to travel. This site collects the places, the light and the moments I\'m lucky enough to photograph.</p><!-- /wp:paragraph -->' ),
+	'contact'   => array( 'Contact', '<!-- wp:paragraph --><p>Thanks for stopping by. Say hello at <a href="mailto:hello@example.com">hello@example.com</a>.</p><!-- /wp:paragraph -->' ),
 );
 
 $nz_page_ids = array();
@@ -157,7 +157,7 @@ $log( 'Pages ready: ' . implode( ', ', array_keys( $nz_pages ) ) );
 update_option( 'show_on_front', 'page' );
 update_option( 'page_on_front', $nz_page_ids['home'] );
 update_option( 'page_for_posts', $nz_page_ids['galleries'] );
-update_option( 'blogdescription', 'Amateur photography from Aotearoa New Zealand' );
+update_option( 'blogdescription', 'Amateur photography from around the world' );
 update_option( 'timezone_string', 'Pacific/Auckland' );
 
 // Drop any DB "Front Page" template that would shadow the theme file.
@@ -191,36 +191,27 @@ $chunk = array_chunk( $nz_image_ids, 4 );
 // -------------------------------------------------------------------------
 $nz_galleries = array(
 	array(
-		'title'   => 'Milford Sound & Fiordland',
-		'slug'    => 'milford-sound-fiordland',
+		'title'   => 'Sample gallery one',
+		'slug'    => 'sample-gallery-one',
 		'cat'     => 'travel',
-		'excerpt' => 'Rain, waterfalls and silence in the deep south.',
-		'intro'   => 'They say Fiordland gets seven metres of rain a year, and it shows. Between the downpours the valleys filled with mist and the waterfalls multiplied.',
-		'label'   => 'Milford Sound',
-		'lat'     => -44.6414,
-		'lng'     => 167.8974,
+		'excerpt' => 'Replace this with your own trip.',
+		'intro'   => 'A short introduction to this gallery. Add your photos, a cover image and a location.',
 		'images'  => isset( $chunk[0] ) ? $chunk[0] : array(),
 	),
 	array(
-		'title'   => 'Tongariro Alpine Crossing',
-		'slug'    => 'tongariro-alpine-crossing',
+		'title'   => 'Sample gallery two',
+		'slug'    => 'sample-gallery-two',
 		'cat'     => 'landscape',
-		'excerpt' => 'An early start for the best day walk in the North Island.',
-		'intro'   => 'By the time the sun cleared Ngauruhoe, the whole plateau was glowing. Three volcanoes, one endless sky, and the quiet crunch of scoria underfoot.',
-		'label'   => 'Tongariro National Park',
-		'lat'     => -39.2812,
-		'lng'     => 175.5667,
+		'excerpt' => 'Replace this with your own trip.',
+		'intro'   => 'A short introduction to this gallery. Add your photos, a cover image and a location.',
 		'images'  => isset( $chunk[1] ) ? $chunk[1] : array(),
 	),
 	array(
-		'title'   => 'Kōwhai in spring',
-		'slug'    => 'kowhai-in-spring',
+		'title'   => 'Sample gallery three',
+		'slug'    => 'sample-gallery-three',
 		'cat'     => 'wildlife',
-		'excerpt' => 'Golden blooms and the birds that love them.',
-		'intro'   => 'Each spring the kōwhai erupts in gold and the tūī descend. A good excuse to stand still with a long lens for an afternoon.',
-		'label'   => 'Wellington',
-		'lat'     => -41.2866,
-		'lng'     => 174.7756,
+		'excerpt' => 'Replace this with your own trip.',
+		'intro'   => 'A short introduction to this gallery. Add your photos, a cover image and a location.',
 		'images'  => isset( $chunk[2] ) ? $chunk[2] : array(),
 	),
 );
@@ -256,8 +247,10 @@ foreach ( $nz_galleries as $gallery ) {
 	if ( $images ) {
 		set_post_thumbnail( $post_id, $images[0] );
 	}
-	update_post_meta( $post_id, '_nz_location', $gallery['lat'] . ',' . $gallery['lng'] );
-	update_post_meta( $post_id, '_nz_location_label', $gallery['label'] );
+	if ( ! empty( $gallery['label'] ) && isset( $gallery['lat'], $gallery['lng'] ) ) {
+		update_post_meta( $post_id, '_nz_location', $gallery['lat'] . ',' . $gallery['lng'] );
+		update_post_meta( $post_id, '_nz_location_label', $gallery['label'] );
+	}
 	$log( 'Gallery: ' . $gallery['title'] );
 }
 
@@ -270,7 +263,7 @@ if ( ! get_page_by_path( 'first-light', OBJECT, 'post' ) ) {
 		'post_status'  => 'publish',
 		'post_title'   => 'Why I started carrying a camera into the hills',
 		'post_name'    => 'first-light',
-		'post_content' => '<!-- wp:paragraph --><p>The best light never waits. A few notes on slowing down, looking up, and learning to be patient with the weather in Aotearoa.</p><!-- /wp:paragraph -->',
+		'post_content' => '<!-- wp:paragraph --><p>The best light never waits. A few notes on slowing down, looking up, and learning to be patient with the weather while travelling.</p><!-- /wp:paragraph -->',
 	) );
 	if ( $nz_post_id && ! is_wp_error( $nz_post_id ) && isset( $nz_cat_ids['posts'] ) ) {
 		wp_set_post_categories( $nz_post_id, array( $nz_cat_ids['posts'] ) );

@@ -13,10 +13,10 @@
 	<!-- wp:column {"verticalAlignment":"center"} -->
 	<div class="wp-block-column is-vertically-aligned-center">
 		<!-- wp:heading {"level":2} -->
-		<h2 class="wp-block-heading">Kaitiakitanga</h2>
+		<h2 class="wp-block-heading">Travel lightly</h2>
 		<!-- /wp:heading -->
 		<!-- wp:paragraph -->
-		<p>Guardianship of the land shapes how we travel here. The whenua gives us everything; our job is to leave it better than we found it.</p>
+		<p>Respect the places you visit, leave no trace, and take only photographs. Good travel is a two-way exchange.</p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:column -->
@@ -25,7 +25,7 @@
 		<!-- wp:group {"className":"nz-motif nz-motif--fern","gradient":"fern-canopy","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60","left":"var:preset|spacing|60","right":"var:preset|spacing|60"}},"border":{"radius":"14px"}},"layout":{"type":"constrained"}} -->
 		<div class="wp-block-group nz-motif nz-motif--fern has-fern-canopy-gradient-background has-background" style="border-radius:14px;padding-top:var(--wp--preset--spacing--60);padding-right:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60);padding-left:var(--wp--preset--spacing--60)">
 			<!-- wp:paragraph {"align":"center","textColor":"sand","fontSize":"large"} -->
-			<p class="has-text-align-center has-sand-color has-text-color has-large-font-size">He waka eke noa.</p>
+			<p class="has-text-align-center has-sand-color has-text-color has-large-font-size">Wander often.</p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->

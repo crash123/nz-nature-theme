@@ -19,5 +19,5 @@
 <!-- /wp:group -->
 
 <!-- wp:shortcode {"align":"wide"} -->
-[nz_photo_map scope="all" height="520" tile="topo"]
+[nz_photo_map scope="all" height="520" tile="osm"]
 <!-- /wp:shortcode -->
