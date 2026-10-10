@@ -215,6 +215,16 @@ galleries and placeholder images.
 **Migrating local content:** `wp db export` locally, then `wp db import` on the
 server, followed by `wp search-replace 'http://localhost:8080' 'https://your.domain' --all-tables`.
 
+### Troubleshooting (Unraid)
+
+- **`nz-nature-db` unhealthy / restart-looping with `chown: … Operation not permitted`.**
+  Unraid's `shfs` (`/mnt/user`) forbids `chown`, which makes the MariaDB entrypoint
+  abort. The `db` service therefore runs as `user: "999:999"` (the `mysql` user) so
+  the chown is skipped. If the data dir was interrupted mid-init, clear it and
+  restart: `docker compose stop db && rm -rf /mnt/user/appdata/nz-nature-theme/db/* && docker compose up -d db`.
+- **First init slow on the array.** The `db` healthcheck has a 30s `start_period`
+  and 20 retries; give it a minute before assuming failure.
+
 ---
 
 ## Security notes

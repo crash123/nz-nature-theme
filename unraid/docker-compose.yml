@@ -16,6 +16,10 @@ services:
   db:
     image: mariadb:11
     container_name: nz-nature-db
+    # Unraid's shfs (/mnt/user) does not permit chown, which makes the root
+    # entrypoint abort. Running as the mysql user (999) skips the chown; the
+    # data dir is already owned by 999:999.
+    user: "999:999"
     restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -28,7 +32,8 @@ services:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 20
+      start_period: 30s
     networks:
       - nz-nature
 
