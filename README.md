@@ -231,8 +231,24 @@ server, followed by `wp search-replace 'http://localhost:8080' 'https://your.dom
 
 - `.env` is gitignored — never commit it. Change every password before deploy.
 - `DISALLOW_FILE_EDIT` blocks the in-dashboard theme/plugin editor.
-- Images are pinned (`wordpress:7.1.3-php8.3-apache`, `mariadb:11`); update
-  deliberately and back up the database first.
+- Images are pinned (`wordpress:7.1.3-php8.3-apache`, `wordpress:cli-2.12.0-php8.3`,
+  `mariadb:11`); update deliberately and back up the database first.
+
+### Updating PHP / images for security releases
+
+The official WordPress image tags are **rebuilt** when the PHP base image gets a
+security patch, so the tag name can stay the same while its digest changes. Pull
+and recreate rather than changing the tag:
+
+```bash
+docker compose pull
+docker compose up -d --force-recreate
+docker compose exec wordpress php -v          # expect the patched PHP
+```
+
+Verify the current version against <https://www.php.net/archive/>. The stack is on
+the PHP 8.3 branch; 8.3.36 fixed CVE-2026-109618 and CVE-2026-109619.
+`uploads.ini` also sets `expose_php=Off` and `session.upload_progress.enabled=0`.
 
 ---
 

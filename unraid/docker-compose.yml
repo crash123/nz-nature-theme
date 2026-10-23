@@ -73,7 +73,7 @@ services:
   # One-off helper for seeding/plugins:
   #   docker compose --profile tools run --rm wpcli wp plugin list
   wpcli:
-    image: wordpress:cli-2.11-php8.3
+    image: wordpress:cli-2.12.0-php8.3
     container_name: nz-nature-wpcli
     profiles: ["tools"]
     depends_on:
